@@ -39,8 +39,14 @@ public class SimpleAI : MonoBehaviour {
 			}
 			
 			Vector3 vt = new Vector3(newX, 0, newZ);
-			
+
 			this.transform.position = vt;
 		}
+
+		Quaternion rt = this.transform.rotation;
+		
+		rt.z = 1;
+		this.transform.rotation = rt;
+		Debug.DrawRay(p2, p1);
 	}
 }

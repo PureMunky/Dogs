@@ -351,6 +351,7 @@ function Update() {
 	var controller : CharacterController = GetComponent(CharacterController);
 	collisionFlags = controller.Move(movement);
 	
+	
 	// ANIMATION sector
 	if(_animation) {
 		if(_characterState == CharacterState.Marking) {
@@ -425,9 +426,27 @@ function Update() {
 
 function OnControllerColliderHit (hit : ControllerColliderHit )
 {
-//	Debug.DrawRay(hit.point, hit.normal);
+	Debug.DrawRay(hit.point, hit.normal);
 	if (hit.moveDirection.y > 0.01) 
 		return;
+}
+
+var cameraTarget;
+
+function OnTriggerEnter(col : Collider){
+	if(col.gameObject.tag == "CameraRotate")
+	{
+		Debug.Log("rotate!!");
+		cameraTarget = col.gameObject;
+	}
+}
+
+function OnTriggerExit(col : Collider){
+	if(col.gameObject.tag == "CameraRotate")
+	{
+		Debug.Log("stop rotate!!");
+		cameraTarget = null;
+	}
 }
 
 function GetSpeed () {

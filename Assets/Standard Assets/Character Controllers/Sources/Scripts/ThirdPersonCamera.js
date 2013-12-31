@@ -84,7 +84,17 @@ function Apply (dummyTarget : Transform, dummyCenter : Vector3)
 	var targetCenter = _target.position + centerOffset;
 	var targetHead = _target.position + headOffset;
 
-//	DebugDrawStuff();
+	if(controller.cameraTarget) {
+		targetCenter = controller.cameraTarget.transform.position + centerOffset;
+		targetHead = controller.cameraTarget.transform.position + headOffset;
+		distance = 20;
+		height = 20;
+	} else {
+		distance = 6;
+		height = 6;
+	}
+	
+	//DebugDrawStuff();
 
 	// Calculate the current & target rotation angles
 	var originalTargetAngle = _target.eulerAngles.y;
@@ -123,6 +133,7 @@ function Apply (dummyTarget : Transform, dummyCenter : Vector3)
 	}
 
 
+	
 	// When jumping don't move camera upwards but only down!
 	if (controller.IsJumping ())
 	{
