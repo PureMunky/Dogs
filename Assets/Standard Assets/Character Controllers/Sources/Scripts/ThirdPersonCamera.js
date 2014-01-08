@@ -87,10 +87,11 @@ function Apply (dummyTarget : Transform, dummyCenter : Vector3)
 
 	if(controller.cameraTarget) {
 		targetCenter = controller.cameraTarget.transform.position + centerOffset;
+		targetCenter.y -= 5;
 		targetHead = controller.cameraTarget.transform.position + headOffset;
 		activeTarget = controller.cameraTarget.transform;
 		distance = 20;
-		height = 20;
+		height = 10;
 	} else {
 		distance = 6;
 		height = 6;
@@ -164,7 +165,7 @@ function Apply (dummyTarget : Transform, dummyCenter : Vector3)
 	
 	if(controller.cameraTarget) {
 		// Target position isn't correct but closer. still awful!
-		cameraTransform.position = (_target.position - targetCenter).normalized * 100;
+		cameraTransform.position = Vector3.Lerp(targetCenter, _target.position, 1);
 	} else {
 		cameraTransform.position = targetCenter;
 		cameraTransform.position += currentRotation * Vector3.back * distance;
