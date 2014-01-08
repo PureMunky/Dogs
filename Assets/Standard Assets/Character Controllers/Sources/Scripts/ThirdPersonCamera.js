@@ -83,21 +83,24 @@ function Apply (dummyTarget : Transform, dummyCenter : Vector3)
 	
 	var targetCenter = _target.position + centerOffset;
 	var targetHead = _target.position + headOffset;
+	var activeTarget;
 
 	if(controller.cameraTarget) {
 		targetCenter = controller.cameraTarget.transform.position + centerOffset;
 		targetHead = controller.cameraTarget.transform.position + headOffset;
+		activeTarget = controller.cameraTarget.transform;
 		distance = 20;
 		height = 20;
 	} else {
 		distance = 6;
 		height = 6;
+		activeTarget = _target;
 	}
 	
 	//DebugDrawStuff();
 
 	// Calculate the current & target rotation angles
-	var originalTargetAngle = _target.eulerAngles.y;
+	var originalTargetAngle = activeTarget.eulerAngles.y;
 	var currentAngle = cameraTransform.eulerAngles.y;
 
 	// Adjust real target angle when camera is locked
@@ -157,8 +160,17 @@ function Apply (dummyTarget : Transform, dummyCenter : Vector3)
 	
 	// Set the position of the camera on the x-z plane to:
 	// distance meters behind the target
-	cameraTransform.position = targetCenter;
-	cameraTransform.position += currentRotation * Vector3.back * distance;
+	
+	
+	if(controller.cameraTarget) {
+		// Target position isn't correct but closer. still awful!
+		cameraTransform.position = (_target.position - targetCenter).normalized * 100;
+	} else {
+		cameraTransform.position = targetCenter;
+		cameraTransform.position += currentRotation * Vector3.back * distance;
+	}
+	
+	
 
 	// Set the height of the camera
 	cameraTransform.position.y = currentHeight;
